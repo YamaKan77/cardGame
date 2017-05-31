@@ -92,6 +92,11 @@ public class HigherCard1 {
 				printHand(hands[start-1]);
 				System.out.println("Player " + start + ", select card to play");
 				s1 = scan.nextInt();
+				while(s1 > hands[start-1].size() || s1 < 0)
+				{
+					System.out.println("Input is invalid. Please enter another\n");
+					s1 = scan.nextInt();
+				}
 				inputs[start-1] = s1;
 				numberOfInputs++;
 				start++;
@@ -136,7 +141,7 @@ public class HigherCard1 {
 				start--;
 			}
 		}
-			
+
 		
 		return inputs;
 	}
@@ -150,8 +155,14 @@ public class HigherCard1 {
 	                               //   another game.
 	      
 
-	         int scoreThisGame;        // Score for one game.
-	         scoreThisGame = play();   // Play the game and get the score.
+	        int scoreThisGame;        // Score for one game.
+	        try{
+	        	 play();
+	        }
+			catch(IndexOutOfBoundsException e)
+			{
+				System.out.println("Selected number is invalid");
+			}// Play the game and get the score.
 
 	   
 	   }  // end main()
@@ -182,7 +193,7 @@ public class HigherCard1 {
 	      hands[3] = hand4;
 	      
 	      int hand1num = 0, hand2num = 0, hand3num = 0, hand4num = 0;
-	      int one = 0, two = 0, three = 0, four = 0;
+	      int score1 = 0, score2 = 0, score3 = 0, score4 = 0;
 	      
 	      deck.shuffle(); 
 	      deck.shuffle(); 
@@ -244,26 +255,37 @@ public class HigherCard1 {
 		      
 		      Card[] cardInputs = {c1,c2,c3,c4};
 		      Arrays.sort(cardInputs, Card.CardComparator);
-		      for(Card c : cardInputs)
-		      {
-		    	  System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
-		      }
+//		      for(Card c : cardInputs)
+//		      {
+//		    	  System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
+//		      }
 		      if(cardInputs[0] == c1)
 		      {
 		    	  winner = 1;
+		    	  score1++;
 		      }
 		      else if(cardInputs[0] == c2)
 		      {
 		    	  winner = 2;
+		    	  score2++;
 		      }
 		      else if(cardInputs[0] == c3)
 		      {
 		    	  winner = 3;
+		    	  score3++;
 		      }
 		      else
-		    	  winner = 4; 
+		      {
+		    	  winner = 4;
+		    	  score4++;
+		      }
 		        
-		      System.out.println(winner);
+		      System.out.println("--------Score----------");
+		      System.out.println("Player 1: " + score1);
+		      System.out.println("Player 2: " + score2);
+		      System.out.println("Player 3: " + score3);
+		      System.out.println("Player 4: " + score4);
+		      
 		        
 		      done1 = isDone(hand1);
 			  done2 = isDone(hand2);
