@@ -51,16 +51,14 @@ public class HigherCard {
 		if(r == Rotation.CLOCKWISE)
 		{
 			int numberOfInputs = 0;
-			System.out.println("Player " + start + ", select card to play");
-			s1 = scan.nextInt();
 			while(start < 5)
 			{
-				start++;
 				printHand(hands[start-1]);
 				System.out.println("Player " + start + ", select card to play");
 				s1 = scan.nextInt();
 				inputs[start-1] = s1;
 				numberOfInputs++;
+				start++;
 			}
 			if(start == 5 && numberOfInputs < 4)
 			{
@@ -68,12 +66,12 @@ public class HigherCard {
 			}
 			while(numberOfInputs < 4)
 			{
-				start++;
 				printHand(hands[start-1]);
 				System.out.println("Player " + start + ", select card to play");
 				s1 = scan.nextInt();
 				inputs[start-1] = s1;
 				numberOfInputs++;
+				start++;
 			}
 		}
 		else if(r == Rotation.COUNTER)
@@ -187,7 +185,7 @@ public class HigherCard {
 	      }
 	      
 	      
-	      getInput(1, Rotation.CLOCKWISE, 4, hands);
+	      int[] inputs = getInput(1, Rotation.CLOCKWISE, 4, hands);
 
 //	      for(int i = 0; i < hands.length ; i++)
 //	      {
@@ -209,33 +207,35 @@ public class HigherCard {
 //	        printHand(hand4);
 //	        System.out.println("Player4, which card do you select: ");
 //	        choice4 = scan.nextInt();
-//	        Card c1, c2, c3, c4;
-//	        c1 = hand1[choice1];
-//	        c2 = hand2[choice2];
-//	        c3 = hand3[choice3];
-//	        c4 = hand4[choice4];
-//	        Card[] inputs = {c1,c2,c3,c4};
-//	        Arrays.sort(inputs, Card.CardComparator);
-//	        for(Card c : inputs)
-//	        {
-//	        	System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
-//	        }
-//	        int winner;
-//	        if(inputs[0] == c1)
-//	        {
-//	        	winner = 1;
-//	        }
-//	        else if(inputs[0] == c2)
-//	        {
-//	        	winner = 2;
-//	        }
-//	        else if(inputs[0] == c3)
-//	        {
-//	        	winner = 3;
-//	        }
-//	        else
-//	        	winner = 4;
-//	        
+	        Card c1, c2, c3, c4;
+	        c1 = hand1[inputs[0]];
+	        c2 = hand2[inputs[1]];
+	        c3 = hand3[inputs[2]];
+	        c4 = hand4[inputs[3]];
+	        Card[] cardInputs = {c1,c2,c3,c4};
+	        Arrays.sort(cardInputs, Card.CardComparator);
+	        for(Card c : cardInputs)
+	        {
+	        	System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
+	        }
+	        int winner;
+	        if(cardInputs[0] == c1)
+	        {
+	        	winner = 1;
+	        }
+	        else if(cardInputs[0] == c2)
+	        {
+	        	winner = 2;
+	        }
+	        else if(cardInputs[0] == c3)
+	        {
+	        	winner = 3;
+	        }
+	        else
+	        	winner = 4; 
+	        
+	        System.out.println(winner);
+	        
 //	        if(winner == 1)
 //	        {
 //	        	
@@ -243,7 +243,8 @@ public class HigherCard {
 //	        
 //	        break; 
 //	      } // end of while loop
-//	      
+	      
+	      	      
 	      
 	      System.out.println();
 	      System.out.println("The game is over.");
