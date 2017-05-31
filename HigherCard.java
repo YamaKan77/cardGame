@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 public class HigherCard {
 	
+	public enum Rotation{
+		CLOCKWISE, COUNTER;
+	}
+	
 	public static void printHand(Card[] x)
 	{
 		System.out.println("\n");
@@ -18,6 +22,7 @@ public class HigherCard {
 
 	public static int numberPassed(boolean a, boolean b, boolean c, boolean d)
 	{
+
 		int count = 0;
 		if(a == true)
 		{
@@ -36,6 +41,72 @@ public class HigherCard {
 			count++;
 		}
 		return count;
+	}
+	
+	public static int[] getInput(int start, Rotation r, int remaining, Card[][] hands)
+	{
+		Scanner scan = new Scanner(System.in);
+		int s1, s2, s3, s4;
+		int[] inputs = new int[4];
+		if(r == Rotation.CLOCKWISE)
+		{
+			int numberOfInputs = 0;
+			System.out.println("Player " + start + ", select card to play");
+			s1 = scan.nextInt();
+			while(start < 5)
+			{
+				start++;
+				printHand(hands[start-1]);
+				System.out.println("Player " + start + ", select card to play");
+				s1 = scan.nextInt();
+				inputs[start-1] = s1;
+				numberOfInputs++;
+			}
+			if(start == 5 && numberOfInputs < 4)
+			{
+				start = 0;
+			}
+			while(numberOfInputs < 4)
+			{
+				start++;
+				printHand(hands[start-1]);
+				System.out.println("Player " + start + ", select card to play");
+				s1 = scan.nextInt();
+				inputs[start-1] = s1;
+				numberOfInputs++;
+			}
+		}
+		else if(r == Rotation.COUNTER)
+		{
+			int numberOfInputs = 0;
+			System.out.println("Player " + start + ", select card to play");
+			s1 = scan.nextInt();
+			while(start > 0)
+			{
+				start--;
+				printHand(hands[start-1]);
+				System.out.println("Player " + start + ", select card to play");
+				s1 = scan.nextInt();
+				inputs[start-1] = s1;
+				numberOfInputs++;
+			}
+			if(start == 0 && numberOfInputs < 4)
+			{
+				start = 5;
+			}
+			while(numberOfInputs < 4)
+			{
+				start--;
+				printHand(hands[start-1]);
+				System.out.println("Player " + start + ", select card to play");
+				s1 = scan.nextInt();
+				inputs[start-1] = s1;
+				numberOfInputs++;
+			}
+		}
+			
+		
+		return inputs;
 	}
 	
 	
@@ -72,6 +143,7 @@ public class HigherCard {
 	      Card[] hand2 = new Card[13];
 	      Card[] hand3 = new Card[13];
 	      Card[] hand4 = new Card[13];
+	      Card[][] hands = {hand1, hand2, hand3, hand4};
 	      
 	      int hand1num = 0, hand2num = 0, hand3num = 0, hand4num = 0;
 	      int one = 0, two = 0, three = 0, four = 0;
@@ -82,6 +154,8 @@ public class HigherCard {
 	      deck.shuffle(); 
 	      // Shuffle the deck into a random order before
 	                       //    starting the game.
+	      
+	   
 
 	      int dealTo = 0;
 	      while(deck.cardsLeft() != 0)
@@ -112,39 +186,64 @@ public class HigherCard {
 	    	  }
 	      }
 	      
+	      
+	      getInput(1, Rotation.CLOCKWISE, 4, hands);
 
-	      
-	      while (numberPassed(done1, done2, done3, done4) < 3) {  // Loop ends when user's prediction is wrong.
-	    	int choice1, choice2, choice3, choice4;
-	    	printHand(hand1);
-	        System.out.println("Player1, which card do you select: ");
-	        choice1 = scan.nextInt();
-	        printHand(hand2);
-	        System.out.println("Player2, which card do you select: ");
-	        choice2 = scan.nextInt();
-	        printHand(hand3);
-	        System.out.println("Player3, which card do you select: ");
-	        choice3 = scan.nextInt();
-	        printHand(hand4);
-	        System.out.println("Player4, which card do you select: ");
-	        choice4 = scan.nextInt();
-	        Card c1, c2, c3, c4;
-	        c1 = hand1[choice1];
-	        c2 = hand2[choice2];
-	        c3 = hand3[choice3];
-	        c4 = hand4[choice4];
-	        Card[] inputs = {c1,c2,c3,c4};
-	        Arrays.sort(inputs, Card.CardComparator);
-	        for(Card c : inputs)
-	        {
-	        	System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
-	        }
-	        
-	        
-	        
-	        break; 
-	      } // end of while loop
-	      
+//	      for(int i = 0; i < hands.length ; i++)
+//	      {
+//	    	  Card[] x = hands[i];
+//	    	  printHand(x);
+//	      }
+//	      
+//	      while (numberPassed(done1, done2, done3, done4) < 3) {  // Loop ends when user's prediction is wrong.
+//	    	int choice1, choice2, choice3, choice4;
+//	    	printHand(hand1);
+//	        System.out.println("Player1, which card do you select: ");
+//	        choice1 = scan.nextInt();
+//	        printHand(hand2);
+//	        System.out.println("Player2, which card do you select: ");
+//	        choice2 = scan.nextInt();
+//	        printHand(hand3);
+//	        System.out.println("Player3, which card do you select: ");
+//	        choice3 = scan.nextInt();
+//	        printHand(hand4);
+//	        System.out.println("Player4, which card do you select: ");
+//	        choice4 = scan.nextInt();
+//	        Card c1, c2, c3, c4;
+//	        c1 = hand1[choice1];
+//	        c2 = hand2[choice2];
+//	        c3 = hand3[choice3];
+//	        c4 = hand4[choice4];
+//	        Card[] inputs = {c1,c2,c3,c4};
+//	        Arrays.sort(inputs, Card.CardComparator);
+//	        for(Card c : inputs)
+//	        {
+//	        	System.out.println(c.getValueAsString() + " " + c.getSuitAsString());
+//	        }
+//	        int winner;
+//	        if(inputs[0] == c1)
+//	        {
+//	        	winner = 1;
+//	        }
+//	        else if(inputs[0] == c2)
+//	        {
+//	        	winner = 2;
+//	        }
+//	        else if(inputs[0] == c3)
+//	        {
+//	        	winner = 3;
+//	        }
+//	        else
+//	        	winner = 4;
+//	        
+//	        if(winner == 1)
+//	        {
+//	        	
+//	        }
+//	        
+//	        break; 
+//	      } // end of while loop
+//	      
 	      
 	      System.out.println();
 	      System.out.println("The game is over.");
